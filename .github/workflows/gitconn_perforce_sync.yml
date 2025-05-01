@@ -9,17 +9,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Install git-p4
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git
-        curl -O https://raw.githubusercontent.com/git/git/master/git-p4.py
-        chmod +x git-p4.py
-        sudo mv git-p4.py /usr/local/bin/git-p4
     - name: Sync and Push to Perforce
       run: |
         log() {
