@@ -1,0 +1,62 @@
+name: Sync to Perforce
+on:
+  push:
+    branches:
+      - main
+jobs:
+  sync-to-perforce:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install git-p4
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git
+        curl -O https://raw.githubusercontent.com/git/git/master/git-p4.py
+        chmod +x git-p4.py
+        sudo mv git-p4.py /usr/local/bin/git-p4
+    - name: Sync and Push to Perforce
+      run: |
+        log() {
+          local type="$1"
+          shift
+          echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')] [$type] $*"
+        }
+
+        check_error() {
+          if [ $? -ne 0 ]; then
+            log "ERROR" "$1"
+            exit 1
+          }
+        }
+
+        log "INFO" "Setup GitHub repo"
+        cd ..
+        if [ -d "clonedir" ]; then
+          log "INFO" "Removing existing clonedir directory"
+          rm -rf clonedir
+          check_error "Failed to remove existing clonedir directory"
+        fi
+        git clone https://github.com/Trivenik1015/git-connector-test-repo.git clonedir
+        check_error "Failed to clone GitHub repo"
+        cd clonedir
+        log "INFO" "Setup GitConnector repo"
+        ls -lrt
+        git remote -v
+        git remote set-url --push origin https://$(KATTAT_P4_USERNAME):'$(KATTAT_P4_PWD)'@host:9443/testgraphdepot/testrepo.git
+        check_error "Failed to set remote URL"
+        echo "List remote repo after the change"
+        git remote -v
+        log "INFO" "Push changes to GitConnector repo"
+        git push
+        check_error "Failed to push changes to GitConnector repo"
+        ls -lrt
+      env:
+        P4PORT: ${{ secrets.P4_PORT }}
+        P4USER: ${{ secrets.KATTAT_P4_USERNAME }}
+        P4PASSWD: ${{ secrets.KATTAT_P4_PWD }}
