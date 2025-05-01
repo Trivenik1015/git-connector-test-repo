@@ -37,7 +37,7 @@ jobs:
         log "INFO" "Setup GitConnector repo"
         ls -lrt
         git remote -v
-        git remote set-url --push origin https://$(KATTAT_P4_USERNAME):'$(KATTAT_P4_PWD)'@host:9443/testgraphdepot/testrepo.git
+        git remote set-url --push origin https://$(KATTAT_P4_USERNAME):'$(KATTAT_P4_PWD)'@bealcisqa01.ad.skynet:9443/testgraphdepot/testrepo.git
         check_error "Failed to set remote URL"
         echo "List remote repo after the change"
         git remote -v
