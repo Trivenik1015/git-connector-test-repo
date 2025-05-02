@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   sync-to-perforce:
-    runs-on: self-hosted
+    runs-on: gitconn
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
