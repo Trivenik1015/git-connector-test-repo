@@ -43,7 +43,7 @@ jobs:
         echo "$P4PASSWD"
         echo "Test line"
         ENCODED_P4PASSWD=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$P4PASSWD'''))")
-        git remote set-url --push origin https://"$P4USER":"$ENCODED_P4PASSWD"@bealcisqa01.ad.skynet:9443/testgraphdepot/testrepo.git
+        git remote set-url --push origin https://"$P4USER":"$ENCODED_P4PASSWD"@bealcisqa01.ad.skynet:9443/testgraphdepot/githubrepo.git
         check_error "Failed to set remote URL"
         sleep 5
         echo "List remote repo after the change"
