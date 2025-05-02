@@ -39,6 +39,9 @@ jobs:
         ls -lrt
         sleep 5
         git remote -v
+        echo "$P4USER"
+        echo "$P4PASSWD"
+        echo "Test line"
         git remote set-url --push origin https://"$P4USER":"$P4PASSWD"@bealcisqa01.ad.skynet:9443/testgraphdepot/testrepo.git
         check_error "Failed to set remote URL"
         sleep 5
