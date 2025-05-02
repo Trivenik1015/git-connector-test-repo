@@ -48,6 +48,7 @@ jobs:
         sleep 5
         echo "List remote repo after the change"
         git remote -v
+        git remote get-url --push origin
         sleep 5
         log "INFO" "Push changes to GitConnector repo"
         git push
