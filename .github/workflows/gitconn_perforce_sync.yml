@@ -33,14 +33,18 @@ jobs:
         fi
         git clone https://github.com/Trivenik1015/git-connector-test-repo.git clonedir
         check_error "Failed to clone GitHub repo"
+        sleep 5
         cd clonedir
         log "INFO" "Setup GitConnector repo"
         ls -lrt
+        sleep 5
         git remote -v
-        git remote set-url --push origin https://'${{ secrets.KATTAT_P4_USERNAME }}':'${{ secrets.KATTAT_P4_PWD }}'@bealcisqa01.ad.skynet:9443/testgraphdepot/testrepo.git
+        git remote set-url --push origin https://"$P4USER":"$P4PASSWD"@bealcisqa01.ad.skynet:9443/testgraphdepot/testrepo.git
         check_error "Failed to set remote URL"
+        sleep 5
         echo "List remote repo after the change"
         git remote -v
+        sleep 5
         log "INFO" "Push changes to GitConnector repo"
         git push
         check_error "Failed to push changes to GitConnector repo"
